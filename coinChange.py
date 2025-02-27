@@ -1,11 +1,17 @@
 class Solution(object):
-    def maxSubArray(self, nums):
+    def coinChange(self, coins, amount):
         """
-        :type nums: List[int]
+        :type coins: List[int]
+        :type amount: int
         :rtype: int
         """
-        cur = maX = nums[0]
-        for num in nums[1:]:
-            cur = max(num, cur + num) 
-            maX = max(maX, cur)
-        return maX
+        dp = [float('inf')] * (amount + 1)
+        dp[0] = 0  
+        
+        for i in coins:
+            for j in range(i, amount + 1):
+                dp[j] = min(dp[j], dp[j - i] + 1)
+        if dp[amount] != float('inf'):
+            return dp[amount]
+        else:
+            return -1
